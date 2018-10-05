@@ -307,6 +307,9 @@ function genFragment(
     }
 
     if (text.trim() === '' && inBlock !== 'code-block') {
+      if (text.includes('\n')) {
+        return getEmptyChunk();
+      }
       return getWhitespaceChunk(inEntity);
     }
     if (inBlock !== 'code-block') {
