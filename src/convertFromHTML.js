@@ -644,7 +644,11 @@ function convertFromHTMLtoContentBlocks(
     return [];
   }
   let start = 0;
-  return chunk.text.split('\r').map((textBlock, blockIndex) => {
+  let text = chunk.text;
+  if (options.trimTextBeforeProcess) {
+    text = chunk.text.trim();
+  }
+  return text.split('\r').map((textBlock, blockIndex) => {
     // Make absolutely certain that our text is acceptable.
     textBlock = sanitizeDraftText(textBlock);
     const end = start + textBlock.length;
@@ -681,6 +685,7 @@ const convertFromHTML = ({
   html,
   options = {
     flat: false,
+    trimTextBeforeProcess: false,
   },
   DOMBuilder = getSafeBodyFromHTML,
   generateKey = genKey
